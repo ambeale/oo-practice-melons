@@ -81,21 +81,56 @@ def make_melon_type_lookup(melon_types):
 class Melon(object):
     """A melon in a melon harvest."""
 
-    # Fill in the rest
-    # Needs __init__ and is_sellable methods
+    def __init__(self, melon_type, shape_rating, color_rating, field_num,
+                    harvested_by):
+        self.melon_type = melon_type
+        self.shape_rating = shape_rating
+        self.color_rating = color_rating
+        self.field_num = field_num
+        self.harvested_by = harvested_by
 
-def make_melons(melon_types):
+    def is_sellable(self):
+        return (self.shape_rating > 5) and (self.color_rating > 5) and (self.field_num != 3)
+
+
+def make_melons(melon_codes):
     """Returns a list of Melon objects."""
 
-    # Fill in the rest
+    melons = []
+
+    melon_1 = Melon(melon_codes["yw"], 8, 7, 2, "Sheila")
+    melon_2 = Melon(melon_codes["yw"], 3, 4, 2, "Sheila")
+    melon_3 = Melon(melon_codes["yw"], 9, 8, 3, "Sheila")
+    melon_4 = Melon(melon_codes["cas"], 10, 6, 35, "Sheila")
+    melon_5 = Melon(melon_codes["cren"], 8, 9, 35, "Michael")
+    melon_6 = Melon(melon_codes["cren"], 8, 2, 35, "Michael")
+    melon_7 = Melon(melon_codes["cren"], 2, 3, 4, "Michael")
+    melon_8 = Melon(melon_codes["musk"], 6, 7, 4, "Michael")
+    melon_9 = Melon(melon_codes["yw"], 7, 10, 3, "Sheila")
+
+    melons.extend([melon_1, melon_2, melon_3, melon_4, melon_5, melon_6,
+                    melon_7, melon_8, melon_9])
+
+    return melons
+
 
 def get_sellability_report(melons):
     """Given a list of melon object, prints whether each one is sellable."""
 
-    # Fill in the rest 
+    for melon in melons:
+        sellable = melon.is_sellable()
 
+        if sellable:
+            print("Harvested by {} from Field #{} - CAN BE SOLD".format(melon.harvested_by,melon.field_num))
+        else:
+            print("Harvested by {} from Field #{} - NOT SELLABLE".format(melon.harvested_by,melon.field_num))
 
 
 all_melons = make_melon_types()
-print_pairing_info(all_melons)
-make_melon_type_lookup(all_melons)
+
+melon_lookup = make_melon_type_lookup(all_melons)
+
+melons = make_melons(melon_lookup)
+#print(melons[0].melon_type.first_harvest)
+
+get_sellability_report(melons)
